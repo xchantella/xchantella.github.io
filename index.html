@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surprise</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div class="password-screen" id="passwordScreen">
+  <div class="password-card">
+    <h2>Enter the secret 💖</h2>
+    <h3>Hint: My Bday :)</h3>
+    <input
+      type="password"
+      id="passwordInput"
+      placeholder="Password"
+      onkeydown="if(event.key==='Enter') checkPassword()"
+    />
+    <button onclick="checkPassword()">Unlock 💌</button>
+    <p class="error" id="passwordError">Wrong password 😢</p>
+  </div>
+</div>
+
+<!-- ENVELOPE SCREEN -->
+<div class="envelope-screen" id="envelopeScreen">
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="envelope-back"></div>
+    <div class="envelope-flap"></div>
+    <div class="envelope-front"></div>
+    <div class="envelope-text">Open Me 💌</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT (YOUR WEBSITE) -->
+<div class="site hidden" id="mainSite">
+  <div class="card">
+
+    <div class="photos">
+      <div class="photo"><img src="photo1.png"></div>
+      <div class="photo"><img src="photo2.png"></div>
+      <div class="photo"><img src="photo3.png"></div>
+      <div class="photo"><img src="photo4.png"></div>
+    </div>
+
+    <h1>Will you be my Valentine?</h1>
+
+    <div class="button-row" id="buttonRow">
+      <div class="yes-button" id="yesBtn" onclick="showLove()">Yes ❤️</div>
+      <div class="no-button" id="noBtn" onclick="swapButtons()">No 😢</div>
+    </div>
+
+
+
+
+    <div class="message" id="loveMessage">
+      I love you more than words can say 💕
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openEnvelope() {
+  const flap = document.querySelector(".envelope-flap");
+  flap.classList.add("open");
+
+  setTimeout(() => {
+    document.getElementById("envelopeScreen").classList.add("fade-out");
+    document.getElementById("mainSite").classList.remove("hidden");
+    document.getElementById("mainSite").classList.add("slide-up");
+  }, 900);
+}
+
+function showLove() {
+  window.location.href = "flowers.html";
+}
+
+let direction = 1; // 1 = right, -1 = left
+
+function swapButtons() {
+  const noBtn = document.getElementById("noBtn");
+  const row = document.getElementById("buttonRow");
+
+  // Add jump animation
+  noBtn.classList.add("jump");
+
+  // Move button left/right after jump
+  setTimeout(() => {
+    noBtn.classList.remove("jump");
+
+    // Get current horizontal margin (or use flex order)
+    if(direction === 1) {
+      row.appendChild(noBtn); // move to end (right)
+      direction = -1;
+    } else {
+      row.insertBefore(noBtn, row.firstChild); // move to start (left)
+      direction = 1;
+    }
+  }, 350);
+}
+
+const CORRECT_PASSWORD = "12112005"; // 👈 change this
+
+function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
+  const error = document.getElementById("passwordError");
+
+  if (input === CORRECT_PASSWORD) {
+    document.getElementById("passwordScreen").style.display = "none";
+  } else {
+    error.style.display = "block";
+  }
+}
+
+</script>
+
+</body>
+</html>
